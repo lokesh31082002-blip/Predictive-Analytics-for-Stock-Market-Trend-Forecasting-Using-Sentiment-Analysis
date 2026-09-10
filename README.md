@@ -1,87 +1,109 @@
-# Stock Market Trend Prediction Using LSTM
+# Predictive Analytics for Stock Market Trend Forecasting Using Sentiment Analysis
 
 ## Overview
 
-This project uses **Long Short-Term Memory (LSTM)** neural networks to predict stock market trends from historical stock data.
+This project focuses on **stock market trend forecasting using LSTM-based deep learning models**. It compares a price-based model with a hybrid model that incorporates additional financial, market, volatility, and sentiment-related features.
 
-Two models are developed and compared:
+The project includes:
 
-1. **Price-only LSTM** – uses historical Open, High, Low, and Close prices.
-2. **Hybrid LSTM** – combines price information with market, financial, volatility, and sentiment-related features.
+* Exploratory Data Analysis (EDA)
+* Data preprocessing
+* Feature encoding and scaling
+* Time-series sequence generation
+* LSTM model development
+* Price-only and hybrid model comparison
+* Model evaluation
+* Confusion matrix and classification report
+* Prediction visualization
+* Export of prediction and sentiment results
+* Power BI-ready output files
 
-The project also performs exploratory data analysis, data preprocessing, model evaluation, confusion-matrix analysis, and exports prediction results for further analysis in tools such as Power BI.
+---
+
+## Dataset
+
+The dataset required for this project can be downloaded from the following Kaggle source:
+
+**Kaggle Dataset:**
+https://www.kaggle.com/code/samayashar/stock-dl-xgb-95-accuracy/input
+
+Open the Kaggle page and download the required data from the **Input** section.
+
+After downloading the dataset, place the CSV file in the project directory.
+
+The notebook expects the dataset to be named:
+
+```text
+synthetic_stock_data.csv
+```
+
+If the downloaded file has a different filename, rename it to `synthetic_stock_data.csv` or update the dataset path in the notebook.
+
+> **Note:** You may need to sign in to Kaggle to access and download the dataset.
+
+---
+
+## Notebook
+
+The main project notebook is:
+
+```text
+stock_market_trend.ipynb
+```
+
+It can be opened using:
+
+* Jupyter Notebook
+* JupyterLab
+* Google Colab
 
 ---
 
 ## Project Workflow
 
-The notebook follows these main steps:
+The notebook follows the workflow below:
 
-1. Import required libraries
-2. Load the stock dataset
+1. Import required Python libraries
+2. Load the stock-market dataset
 3. Convert and sort dates
-4. Handle missing values and duplicates
-5. Encode categorical variables
-6. Perform exploratory data analysis
-7. Select model features
-8. Scale numerical features
-9. Create time-series sequences
-10. Split data into training and testing sets
-11. Build LSTM models
-12. Train the price-only model
-13. Train the hybrid model
-14. Generate predictions
-15. Evaluate model performance
-16. Generate a confusion matrix
-17. Generate a classification report
-18. Visualize actual vs. predicted trends
-19. Export prediction data
-20. Export sentiment summaries
+4. Check and handle missing values
+5. Remove duplicate records
+6. Encode categorical variables
+7. Perform exploratory data analysis
+8. Select model features
+9. Scale numerical features
+10. Create time-series sequences
+11. Split the data into training and testing sets
+12. Build LSTM models
+13. Train the price-only LSTM model
+14. Train the hybrid LSTM model
+15. Generate predictions
+16. Evaluate model performance
+17. Generate a confusion matrix
+18. Generate a classification report
+19. Visualize actual and predicted trends
+20. Export prediction and sentiment results
 
 ---
 
-## Dataset Download
+## Dataset Features
 
-The dataset used for this project can be downloaded from the following Kaggle notebook:
+The dataset contains information such as:
 
-**Kaggle:** https://www.kaggle.com/code/samayashar/stock-dl-xgb-95-accuracy/input
-
-Please download the required dataset from the Kaggle **Input** section and place the downloaded CSV file in the project directory.
-
-The notebook expects the dataset to be available as:
-
-```text
-synthetic_stock_data.csv
-```
-
-If the downloaded file has a different filename, either rename it to `synthetic_stock_data.csv` or update the dataset path in `Lokesh_Final.ipynb`.
-
-> **Note:** You may need to sign in to Kaggle to access and download the dataset. The linked Kaggle notebook is the source referenced for obtaining the input data.
-
-## Dataset
-
-The notebook expects a CSV file named:
-
-```text
-synthetic_stock_data.csv
-```
-
-The dataset contains information used for stock-market trend prediction, including:
-
-- Date
-- Company
-- Sector
-- Open
-- High
-- Low
-- Close
-- Volume
-- Market Cap
-- P/E Ratio
-- Dividend Yield
-- Volatility
-- Sentiment Score
-- Trend
+* Date
+* Company
+* Sector
+* Open
+* High
+* Low
+* Close
+* Volume
+* Market Cap
+* P/E Ratio
+* Dividend Yield
+* Volatility
+* Sentiment Score
+* Trend
 
 The target variable is:
 
@@ -89,15 +111,13 @@ The target variable is:
 Trend
 ```
 
-The categorical variables `Company`, `Sector`, and `Trend` are encoded using `LabelEncoder`.
-
-> **Note:** The notebook uses a synthetic dataset. The results should therefore not be interpreted as evidence of performance on real-world stock-market data.
+Categorical variables such as `Company`, `Sector`, and `Trend` are encoded before being used by the models.
 
 ---
 
-## Features
+## Models
 
-### Price-only Model
+### Price-only LSTM
 
 The baseline model uses:
 
@@ -108,7 +128,9 @@ Low
 Close
 ```
 
-### Hybrid Model
+This model provides a baseline for comparison.
+
+### Hybrid LSTM
 
 The hybrid model uses:
 
@@ -125,29 +147,27 @@ Volatility
 Sentiment_Score
 ```
 
-The hybrid model incorporates additional market, financial, volatility, and sentiment information rather than relying only on historical prices.
+The comparison evaluates whether additional financial, market, volatility, and sentiment features improve stock-market trend classification.
 
 ---
 
 ## Data Preprocessing
 
-The following preprocessing operations are performed:
-
 ### Date Processing
 
-The `Date` column is converted to datetime format and the dataset is sorted chronologically.
+The `Date` column is converted to datetime format and observations are ordered chronologically.
 
 ### Missing Values
 
-Missing numerical values are replaced with the median of their respective columns.
+Missing numerical values are handled using the median of the corresponding feature.
 
-### Duplicate Removal
+### Duplicate Records
 
-Duplicate rows are removed from the dataset.
+Duplicate rows are removed during preprocessing.
 
 ### Categorical Encoding
 
-`Company`, `Sector`, and `Trend` are converted into numerical representations using `LabelEncoder`.
+Categorical variables are converted into numerical representations using `LabelEncoder`.
 
 ### Feature Scaling
 
@@ -155,17 +175,13 @@ Numerical features are scaled using `MinMaxScaler`.
 
 ---
 
-## Time-Series Sequence Creation
+## Time-Series Sequences
 
-The project uses a **10-day time window** for creating LSTM sequences.
+The LSTM models use a **10-observation time window**.
 
 For each prediction, the model receives the previous 10 observations as input.
 
-```text
-Window size = 10
-```
-
-The resulting data is structured in the form required by an LSTM:
+The resulting input structure follows:
 
 ```text
 (samples, time steps, features)
@@ -175,7 +191,7 @@ The resulting data is structured in the form required by an LSTM:
 
 ## LSTM Architecture
 
-Both models use the same basic architecture:
+The models use the following architecture:
 
 ```text
 Input
@@ -189,52 +205,44 @@ Dense (32 units, ReLU)
 Dense (3 units, Softmax)
 ```
 
-The models are compiled using:
+### Model Configuration
 
-- **Optimizer:** Adam
-- **Loss:** Sparse Categorical Crossentropy
-- **Metric:** Accuracy
-
-The output layer contains three classes corresponding to the encoded market trend categories.
+* **Optimizer:** Adam
+* **Loss:** Sparse Categorical Crossentropy
+* **Metric:** Accuracy
+* **Maximum Epochs:** 30
+* **Batch Size:** 32
+* **Validation Split:** 20%
+* **Early Stopping Patience:** 5
+* **Restore Best Weights:** Enabled
 
 ---
 
-## Training
+## Train/Test Split
 
-The data is divided chronologically:
+The data is split chronologically:
 
 ```text
 80% → Training
 20% → Testing
 ```
 
-The models are trained with:
-
-- Maximum epochs: `30`
-- Batch size: `32`
-- Validation split: `20%`
-
-An `EarlyStopping` callback is used with:
-
-```text
-patience = 5
-restore_best_weights = True
-```
-
-This stops training when validation loss stops improving and restores the best-performing model weights.
+The chronological split is used to preserve the time-series nature of the data.
 
 ---
 
 ## Model Evaluation
 
-The notebook evaluates the models using:
+The models are evaluated using:
 
-- RMSE
-- MAE
-- Weighted F1 Score
-- Accuracy
+* Accuracy
+* Weighted F1 Score
+* RMSE
+* MAE
+* Confusion Matrix
+* Classification Report
 
-The comparison is stored in a pandas DataFrame and exported as:
+The model comparison is exported to:
 
 ```text
 model_metrics.csv
@@ -242,40 +250,32 @@ model_metrics.csv
 
 ### Evaluation Note
 
-RMSE and MAE are calculated on numerically encoded trend classes. Since the target is categorical, these metrics should not be interpreted in the same way as continuous stock-price prediction errors.
+Because the target variable represents categorical trend classes, **accuracy, F1 score, confusion matrix, precision, and recall** are more directly relevant classification metrics.
 
-For the classification task, **accuracy, F1 score, confusion matrix, and the classification report** are more directly relevant.
-
----
-
-## Confusion Matrix
-
-A confusion matrix is generated for the hybrid LSTM model to compare actual and predicted trend classes.
-
-A classification report is also generated to provide class-level precision, recall, and F1-score information.
+RMSE and MAE are calculated on encoded class values and should not be interpreted as conventional stock-price prediction errors.
 
 ---
 
 ## Visualizations
 
-The project produces visualizations including:
+The notebook produces visualizations such as:
 
-- Closing Price Over Time
-- Market Trend Distribution
-- Sentiment Score Distribution
-- Feature Correlation Heatmap
-- Hybrid Model Confusion Matrix
-- Actual vs. Predicted Trend
-
-These visualizations are used to understand the dataset and evaluate model predictions.
+* Closing Price Over Time
+* Market Trend Distribution
+* Sentiment Score Distribution
+* Feature Correlation Heatmap
+* Confusion Matrix
+* Actual vs. Predicted Trend
 
 ---
 
 ## Output Files
 
+After running the notebook, the following output files are generated.
+
 ### `model_metrics.csv`
 
-Contains evaluation results for the Price LSTM and Hybrid LSTM models, including:
+Contains model evaluation results, including:
 
 ```text
 Model
@@ -295,7 +295,7 @@ Actual
 Predicted
 ```
 
-The predicted and actual trend values are converted back from encoded numerical values to their original categories.
+This file can be used to compare actual and predicted market trends.
 
 ### `sentiment_summary.csv`
 
@@ -303,36 +303,29 @@ Contains the average sentiment score grouped by market trend.
 
 ---
 
-## Power BI Integration
+## Power BI
 
-The exported prediction data can be used for further visualization and analysis in Power BI.
+The generated CSV files can be imported into **Microsoft Power BI** for additional visualization and dashboard development.
 
-The main file is:
+The main prediction file is:
 
 ```text
 predictions.csv
 ```
 
-It can be used to visualize:
+It can be used to create visualizations for:
 
-- Actual trends
-- Predicted trends
-- Prediction performance over time
-- Trend distributions
+* Actual vs. predicted trends
+* Trend distribution
+* Prediction performance over time
 
-The following file can also be used:
-
-```text
-sentiment_summary.csv
-```
-
-to analyze the relationship between sentiment scores and market trends.
+The `sentiment_summary.csv` file can be used to examine sentiment patterns across different market trends.
 
 ---
 
 ## Requirements
 
-The project uses Python and the following libraries:
+The project requires Python and the following libraries:
 
 ```text
 pandas
@@ -343,7 +336,7 @@ scikit-learn
 tensorflow
 ```
 
-Install the required packages with:
+Install the dependencies using:
 
 ```bash
 pip install pandas numpy matplotlib seaborn scikit-learn tensorflow
@@ -353,25 +346,37 @@ pip install pandas numpy matplotlib seaborn scikit-learn tensorflow
 
 ## How to Run
 
-### 1. Prepare the Dataset
+### Step 1: Download the Dataset
 
-Place the dataset in the working directory:
+Download the required dataset from:
+
+https://www.kaggle.com/code/samayashar/stock-dl-xgb-95-accuracy/input
+
+Download the data from the **Input** section of the Kaggle page.
+
+### Step 2: Place the Dataset in the Project Folder
+
+Place the downloaded dataset in the same project directory as the notebook.
+
+Rename the dataset to:
 
 ```text
 synthetic_stock_data.csv
 ```
 
-### 2. Open the Notebook
+if necessary.
+
+### Step 3: Open the Notebook
 
 Open:
 
 ```text
-Lokesh_Final.ipynb
+stock_market_trend.ipynb
 ```
 
 using Jupyter Notebook, JupyterLab, or Google Colab.
 
-### 3. Update the Dataset Path
+### Step 4: Check the Dataset Path
 
 The notebook uses:
 
@@ -379,75 +384,22 @@ The notebook uses:
 pd.read_csv("/content/synthetic_stock_data.csv")
 ```
 
-If running locally, update this path to the location of the dataset.
+If you are running the project locally, change this path to the location of your downloaded dataset.
 
-### 4. Run All Cells
+### Step 5: Run the Notebook
 
-Execute the notebook from beginning to end.
+Run all cells from beginning to end.
 
-The notebook generates:
-
-```text
-model_metrics.csv
-predictions.csv
-sentiment_summary.csv
-```
-
----
-
-## Model Comparison
-
-The project compares whether additional financial, market, volatility, and sentiment features improve stock-market trend classification compared with using price information alone.
-
-| Model | Features |
-|---|---|
-| Price LSTM | Open, High, Low, Close |
-| Hybrid LSTM | Price + Volume + Market Cap + P/E + Dividend Yield + Volatility + Sentiment |
-
-The actual performance values should be taken from the generated `model_metrics.csv` file after running the notebook.
-
----
-
-## Limitations
-
-The project has several limitations:
-
-- The dataset is synthetic rather than real-world market data.
-- The model predicts trend classes rather than actual future stock prices.
-- RMSE and MAE are not ideal primary metrics for a categorical classification problem.
-- The notebook scales the full dataset before the train/test split, which can introduce **data leakage** because test-period information can influence the scaling transformation.
-- The validation split used during training should also be considered carefully for time-series data.
-- No systematic hyperparameter search is implemented.
-- A fixed 10-observation sequence length is used.
-- The model does not establish that predictions can produce profitable trading strategies.
-- Performance on synthetic data should not be interpreted as evidence of performance in live financial markets.
-
----
-
-## Future Improvements
-
-Possible improvements include:
-
-- Use real historical stock-market data.
-- Fit scalers only on the training data.
-- Use a strictly chronological validation set.
-- Compare LSTM with GRU, CNN-LSTM, Random Forest, XGBoost, and other models.
-- Perform systematic hyperparameter tuning.
-- Test different sequence/window sizes.
-- Handle class imbalance where necessary.
-- Add technical indicators such as moving averages and RSI.
-- Use classification-focused metrics such as macro F1, precision, recall, and balanced accuracy.
-- Perform walk-forward and out-of-sample testing.
-- Develop a proper backtesting framework before considering trading applications.
+The notebook will perform preprocessing, model training, evaluation, visualization, and output-file generation.
 
 ---
 
 ## Project Structure
 
 ```text
-project/
+Predictive-Analytics-for-Stock-Market-Trend-Forecasting-Using-Sentiment-Analysis/
 │
-├── Lokesh_Final.ipynb
+├── stock_market_trend.ipynb
 ├── synthetic_stock_data.csv
 ├── model_metrics.csv
 ├── predictions.csv
@@ -457,10 +409,44 @@ project/
 
 ---
 
+## Limitations
+
+The project has several limitations:
+
+* The dataset used by the project is synthetic.
+* The model predicts trend classes rather than actual future stock prices.
+* RMSE and MAE are not primary metrics for categorical classification.
+* Scaling the full dataset before splitting can introduce data leakage.
+* The validation approach should be considered carefully for time-series data.
+* The project does not establish that predictions can generate profitable trading strategies.
+* Results obtained from synthetic data should not be treated as evidence of real-world trading performance.
+* No systematic hyperparameter optimization is performed.
+
+---
+
+## Future Improvements
+
+Possible improvements include:
+
+* Use real historical stock-market data.
+* Fit preprocessing scalers only on the training data.
+* Use a strictly chronological validation dataset.
+* Add technical indicators such as RSI and moving averages.
+* Compare LSTM with GRU, CNN-LSTM, XGBoost, Random Forest, and other models.
+* Perform systematic hyperparameter tuning.
+* Test different sequence lengths.
+* Address class imbalance where required.
+* Use additional classification metrics such as macro F1, precision, recall, and balanced accuracy.
+* Perform walk-forward validation.
+* Perform out-of-sample testing.
+* Develop a proper trading-strategy backtesting framework.
+
+---
+
 ## Conclusion
 
-This project implements an LSTM-based approach for classifying stock-market trends using historical market information.
+This project presents an LSTM-based approach for stock-market trend forecasting using historical market information and sentiment-related features.
 
-It compares a **price-only LSTM baseline** with a **hybrid LSTM model** that incorporates additional financial, market, volatility, and sentiment features.
+A **price-only LSTM** is compared with a **hybrid LSTM** that incorporates additional financial, market, volatility, and sentiment variables.
 
-The project combines machine learning, time-series sequence modelling, exploratory data analysis, model evaluation, and Power BI-ready data exports into a single workflow.
+The project combines data preprocessing, exploratory analysis, time-series modelling, deep learning, model evaluation, visualization, and Power BI-ready outputs in a single workflow.
